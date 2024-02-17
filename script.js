@@ -11,9 +11,11 @@ let snake = [{x: 10, y: 10}]; //<-- la culebrita es un arreglo que contiene posi
 let foodPosition = generateFoodPostion();
 let direction = 'rigth';
 let gameInterval;
+let specialInterval;
 let gameSpeedDelay = 200;
 let gameStarted = false;
 let highScore = 0;
+let bonus = 0;
 
 //* Función para dibujar en el mapa del juego (gameboard), la culebrita (snake) y la comidita (food):
 function draw(){
@@ -21,7 +23,7 @@ function draw(){
     board.innerHTML = '';
     drawSnake();
     drawFood();
-    unpdateScore();
+    updateScore();
 
 };
 
@@ -58,6 +60,7 @@ function drawFood(){
 };
 
 
+
 //Función para generar la posición de la comida:
 function generateFoodPostion(){
 
@@ -67,6 +70,7 @@ function generateFoodPostion(){
     return { x, y };
 
 };
+
 
 
 //Función para crear segmentos de la culebra o cubos de comida:
@@ -128,17 +132,37 @@ function move(){
 
         foodPosition = generateFoodPostion(); //<--- Se vuelve a generar la comida
 
-        increaseSpeed();
+        if(snake.length > 20){
 
-        clearInterval(gameInterval); // <--- borra el intervalo anterior
+            bonus += 3;
 
-        gameInterval = setInterval(()=>{
+            increaseDificulty();
 
-            move();
-            draw();
-            checkCollision();
+            clearInterval(gameInterval);
 
-        }, gameSpeedDelay);
+            gameInterval = setInterval(()=>{
+
+                move();
+                draw();
+                checkCollision();
+
+            }, gameSpeedDelay);
+
+        }else{
+
+            increaseSpeed();
+
+            clearInterval(gameInterval); // <--- borra el intervalo anterior
+
+            gameInterval = setInterval(()=>{
+
+                move();
+                draw();
+                checkCollision();
+
+            }, gameSpeedDelay);
+
+        }
 
     }else{
 
@@ -164,6 +188,8 @@ function startGame(){
         checkCollision();
 
     }, gameSpeedDelay);
+
+    intervaloEspecial();
 
 };
 
@@ -277,20 +303,22 @@ function resetGame(){
     foodPosition = generateFoodPostion();
     direction = 'right';
     gameSpeedDelay = 200;
-    unpdateScore();
+    updateScore();
 
 };
 
 
 //Funciones para actualizar los puntajes:
-function unpdateScore(){
-    const currentScore = snake.length - 1;
+function updateScore(){
+
+    const currentScore = (snake.length - 1) + bonus;
     score.textContent = currentScore.toString().padStart( 3,'0' ); //<--padStart es para colocar los 000 ademas de ser la cantidad de digitos permitida
+
 };
 
 function updateHighScore(){
 
-    const currentScore = snake.length - 1;
+    const currentScore = (snake.length - 1) + bonus;
     if(currentScore > highScore){
         highScore = currentScore;
         highScoreText.textContent = highScore.toString().padStart(3,'0');
@@ -305,8 +333,29 @@ function stopGame(){
     instrucciones.style.display = 'block';
     logo.style.display = 'block';
     board.innerHTML = '';
+    clearInterval(specialInterval);
 };
 
-//TODO: Añadir incremento de dificultad dependiendo del score
-//TODO: Añadir comida especial que da más puntos y aparece de forma random según el tiempo que lleves jugando sin morir
+
+
+function increaseDificulty(){
+
+    gameSpeedDelay -= 10;
+
+};
+
+
+//TODO: comida especial:
+function intervaloEspecial(){
+
+    specialInterval = setInterval(()=> {
+
+        console.log('comida especial!')
+
+        setTimeout(()=>{
+            console.log('borrar comida especial')
+        }, 2000);
+
+    }, 8000);
+};
 

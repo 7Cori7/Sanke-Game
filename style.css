@@ -20,26 +20,26 @@ body, .snake{
 }
 
 .game-border-1{
-    border: #595f43 solid 10px;
+    border: #5f435b solid 10px;
     border-radius: 30px;
-    box-shadow: 0 0 0 10px #595f43;
+    box-shadow: 0 0 0 10px #5f435b;
 }
 
 .game-border-2{
-    border: #abb78a solid 8px;
+    border: #b78ab7 solid 8px;
     border-radius: 26px;
-    box-shadow: 0 0 0 10px #abb78a;
+    box-shadow: 0 0 0 10px #b78ab7;
 }
 
 .game-border-3{
-    border: #8b966c solid 30px;
+    border: #966c8b solid 30px;
     border-radius: 20px;
-    box-shadow: 0 0 0 5px #8b966c;
+    box-shadow: 0 0 0 5px #966c8b;
 }
 
 #instruction-text{
     position: absolute;
-    top: 63%;
+    top: 66%;
     color: #333;
     width: 300px;
     text-align: center;
@@ -55,7 +55,7 @@ body, .snake{
 }
 
 #score{
-    color: #abb78a;
+    color: #b78ab7;
 }
 
 #score, #highScore{
@@ -65,12 +65,12 @@ body, .snake{
 }
 
 #highScore{
-    color: #d8ddca;
+    color: #ddcad9;
     display: none;
 }
 
 .game-border-3, #logo{
-    background-color: #c4cfa3;
+    background-color: #ddcad9;
 }
 
 .snake{
@@ -82,11 +82,17 @@ body, .snake{
     border: #999 5px solid;
 }
 
+.specialFood{
+    background-color: #e0c8d8;
+    border: #b78ab7 5px solid;
+}
+
 #logo{
     position: absolute;
     left: 50%;
-    top: 50%;
+    top: 48%;
     transform: translate(-50%, -50%);
+    opacity: .8;
 }
 
   
