@@ -9,9 +9,9 @@ const highScoreText = document.getElementById('highScore');
 const gridSize = 20;
 let snake = [{x: 10, y: 10}]; //<-- la culebrita es un arreglo que contiene posiciones (ejes x = filas, y = columnas) del mapa de juego (grilla del game board)
 let foodPosition = generateFoodPostion();
+let specialFoodPosition;
 let direction = 'rigth';
 let gameInterval;
-let specialInterval;
 let gameSpeedDelay = 200;
 let gameStarted = false;
 let highScore = 0;
@@ -83,7 +83,7 @@ function createGameElement(tag, className){
 };
 
 
-//Función para establecer la posción de la culebrita o de la comida en el gameboard:
+//Función para establecer la posción de la culebrita o la comida en el gameboard:
 function setPosition(element, position){
 
     element.style.gridColumn = position.x;
@@ -132,26 +132,31 @@ function move(){
 
         foodPosition = generateFoodPostion(); //<--- Se vuelve a generar la comida
 
-        if(snake.length > 20){
+        increaseSpeed();
+
+        if(snake.length > 30){
 
             bonus += 3;
-
+    
             increaseDificulty();
-
+    
             clearInterval(gameInterval);
-
+    
+            //specialFoodPosition = generateSpecialPosition();
+    
             gameInterval = setInterval(()=>{
-
+    
                 move();
                 draw();
                 checkCollision();
-
+                //drawSpecialFood(specialFoodPosition);
+                //comerComidaEspecial(head);
+    
             }, gameSpeedDelay);
 
+    
         }else{
-
-            increaseSpeed();
-
+    
             clearInterval(gameInterval); // <--- borra el intervalo anterior
 
             gameInterval = setInterval(()=>{
@@ -162,13 +167,13 @@ function move(){
 
             }, gameSpeedDelay);
 
-        }
+        };
 
     }else{
 
         snake.pop(); //<-- va borrando lo que queda de último, esto da la ilusión de que se mueve
 
-    };
+    };    
 
 };
 
@@ -185,18 +190,15 @@ function startGame(){
 
         move(); //mover la culebrita
         draw(); //dibujar cada nueva posicion
-        checkCollision();
+        checkCollision(); //activar la colisión
 
     }, gameSpeedDelay);
-
-    intervaloEspecial();
 
 };
 
 
 
 //* Escuchar los Eventos (presionar las teclas del teclado):
-
 function handleKeyPress(event){
 
     //Si NO se ha iniciado el juego:
@@ -238,7 +240,6 @@ function handleKeyPress(event){
 
 };
 
-
 document.addEventListener('keydown', e => {
 
     handleKeyPress(e);
@@ -246,6 +247,7 @@ document.addEventListener('keydown', e => {
 });
 
 
+//Función para incrementar velocidad:
 function increaseSpeed(){
 
     if(gameSpeedDelay > 150){
@@ -269,6 +271,7 @@ function increaseSpeed(){
 };
 
 
+//Función para activar colisión:
 function checkCollision(){
 
     const head = snake[0];
@@ -327,17 +330,17 @@ function updateHighScore(){
 
 };
 
+//Función para detener el juego:
 function stopGame(){
     clearInterval(gameInterval);
     gameStarted = false;
     instrucciones.style.display = 'block';
     logo.style.display = 'block';
     board.innerHTML = '';
-    clearInterval(specialInterval);
 };
 
 
-
+//Incrementar la dificultad:
 function increaseDificulty(){
 
     gameSpeedDelay -= 10;
@@ -345,17 +348,74 @@ function increaseDificulty(){
 };
 
 
-//TODO: comida especial:
-function intervaloEspecial(){
+//TODO: comida especial: Escribir funciones para dibujarla y borrarla
 
-    specialInterval = setInterval(()=> {
+function drawSpecialFood(position){
 
-        console.log('comida especial!')
+    if(gameStarted){
 
-        setTimeout(()=>{
-            console.log('borrar comida especial')
-        }, 2000);
+        const foodElement = createSpecialElement('div', 'specialFood');
 
-    }, 8000);
+        setSpecialPosition(foodElement, position);
+
+        board.appendChild(foodElement);
+
+    }
+
 };
 
+
+function createSpecialElement(tag, className){
+
+    const element = document.createElement(tag);
+    element.className = className;
+    return element;
+
+};
+
+
+function generateSpecialPosition(){
+
+    const x = Math.floor((Math.random() * gridSize) + 1);
+    const y = Math.floor((Math.random() * gridSize) + 1);
+
+    console.log('comida especial!', {x,y})
+
+    return { x, y };
+    
+};
+
+
+function setSpecialPosition(element, position){
+
+    element.style.gridColumn = position.x;
+    element.style.gridRow = position.y;
+
+};
+
+
+function comerComidaEspecial(head){
+
+    if(head.x === specialFoodPosition.x && head.y === specialFoodPosition.y){
+    
+        console.log('comi comida especial')
+
+        specialFoodPosition = generateSpecialPosition();
+
+        bonus += 3;
+
+        increaseSpeed();
+
+        clearInterval(gameInterval);
+
+        gameInterval = setInterval(()=>{
+
+            move();
+            draw();
+            checkCollision();
+            drawSpecialFood(specialFoodPosition);
+
+        }, gameSpeedDelay);
+    }
+
+};
