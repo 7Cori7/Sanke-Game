@@ -2,6 +2,7 @@
 const board = document.querySelector('#game-board');
 const instrucciones = document.getElementById('instruction-text');
 const logo = document.getElementById('logo');
+const gameOptions = document.getElementById('game-options');
 const score = document.getElementById('score');
 const highScoreText = document.getElementById('highScore');
 
@@ -9,13 +10,15 @@ const highScoreText = document.getElementById('highScore');
 const gridSize = 20;
 let snake = [{x: 10, y: 10}]; //<-- la culebrita es un arreglo que contiene posiciones (ejes x = filas, y = columnas) del mapa de juego (grilla del game board)
 let foodPosition = generateFoodPostion();
-let specialFoodPosition;
 let direction = 'rigth';
 let gameInterval;
 let gameSpeedDelay = 200;
 let gameStarted = false;
 let highScore = 0;
 let bonus = 0;
+let easy = false;
+let normal = false;
+let hard = false;
 
 //* Función para dibujar en el mapa del juego (gameboard), la culebrita (snake) y la comidita (food):
 function draw(){
@@ -134,27 +137,36 @@ function move(){
 
         increaseSpeed();
 
-        if(snake.length > 30){
+        if(snake.length > 15 && hard){
 
             bonus += 3;
-    
-            increaseDificulty();
-    
+      
             clearInterval(gameInterval);
-    
-            //specialFoodPosition = generateSpecialPosition();
     
             gameInterval = setInterval(()=>{
     
                 move();
                 draw();
                 checkCollision();
-                //drawSpecialFood(specialFoodPosition);
-                //comerComidaEspecial(head);
     
             }, gameSpeedDelay);
 
+        }else if(snake.length > 50 && normal || snake.length > 40 && easy){
+
+            bonus += 3;
+      
+            clearInterval(gameInterval);
+
+            increaseDificulty();
     
+            gameInterval = setInterval(()=>{
+    
+                move();
+                draw();
+                checkCollision();
+    
+            }, gameSpeedDelay);
+
         }else{
     
             clearInterval(gameInterval); // <--- borra el intervalo anterior
@@ -183,8 +195,15 @@ function startGame(){
 
     gameStarted = true;
 
-    instrucciones.style.display = 'none';
-    logo.style.display = 'none';
+    gameOptions.style.display = 'none';
+
+    if(normal){
+        gameSpeedDelay = 200;
+    }else if(easy){
+        gameSpeedDelay = 250;
+    }else{
+        gameSpeedDelay = 150;
+    }
 
     gameInterval = setInterval(() => {
 
@@ -193,6 +212,8 @@ function startGame(){
         checkCollision(); //activar la colisión
 
     }, gameSpeedDelay);
+
+    console.log(gameSpeedDelay)
 
 };
 
@@ -204,6 +225,23 @@ function handleKeyPress(event){
     //Si NO se ha iniciado el juego:
     if( (!gameStarted && event.code === 'Space') || (!gameStarted && event.key === ' ') ){
 
+        gameOptions.style.display = 'block';
+        instrucciones.style.display = 'none';
+        logo.style.display = 'none';
+
+    }else if(!gameStarted && event.key === "1"){
+
+        easy = true;
+        startGame();
+
+    }else if(!gameStarted && event.key === "2"){
+
+        normal = true;
+        startGame();
+
+    }else if(!gameStarted && event.key === "3"){
+
+        hard = true;
         startGame();
 
     }else{
@@ -250,21 +288,45 @@ document.addEventListener('keydown', e => {
 //Función para incrementar velocidad:
 function increaseSpeed(){
 
-    if(gameSpeedDelay > 150){
+    if(normal || easy){
 
-        gameSpeedDelay -= 5;
+        if(gameSpeedDelay > 150){
 
-    }else if(gameSpeedDelay > 100){
+            gameSpeedDelay -= 5;
+    
+        }else if(gameSpeedDelay > 100){
+    
+            gameSpeedDelay -= 3;
+    
+        }else if(gameSpeedDelay > 50){
+    
+            gameSpeedDelay -= 2;
+    
+        }else if(gameSpeedDelay > 25){
+    
+            gameSpeedDelay -= 1;
+    
+        }
 
-        gameSpeedDelay -= 3;
+    }else{
 
-    }else if(gameSpeedDelay > 50){
+        if(gameSpeedDelay > 150){
 
-        gameSpeedDelay -= 2;
-
-    }else if(gameSpeedDelay > 25){
-
-        gameSpeedDelay -= 1;
+            gameSpeedDelay -= 10;
+    
+        }else if(gameSpeedDelay > 100){
+    
+            gameSpeedDelay -= 7;
+    
+        }else if(gameSpeedDelay > 50){
+    
+            gameSpeedDelay -= 5;
+    
+        }else if(gameSpeedDelay > 25){
+    
+            gameSpeedDelay -= 3;
+    
+        }
 
     }
 
@@ -337,85 +399,16 @@ function stopGame(){
     instrucciones.style.display = 'block';
     logo.style.display = 'block';
     board.innerHTML = '';
+    easy = false;
+    normal = false;
+    hard = false;
 };
 
 
 //Incrementar la dificultad:
 function increaseDificulty(){
 
-    gameSpeedDelay -= 10;
+    gameSpeedDelay -= 5;
 
 };
 
-
-//TODO: comida especial: Escribir funciones para dibujarla y borrarla
-
-function drawSpecialFood(position){
-
-    if(gameStarted){
-
-        const foodElement = createSpecialElement('div', 'specialFood');
-
-        setSpecialPosition(foodElement, position);
-
-        board.appendChild(foodElement);
-
-    }
-
-};
-
-
-function createSpecialElement(tag, className){
-
-    const element = document.createElement(tag);
-    element.className = className;
-    return element;
-
-};
-
-
-function generateSpecialPosition(){
-
-    const x = Math.floor((Math.random() * gridSize) + 1);
-    const y = Math.floor((Math.random() * gridSize) + 1);
-
-    console.log('comida especial!', {x,y})
-
-    return { x, y };
-    
-};
-
-
-function setSpecialPosition(element, position){
-
-    element.style.gridColumn = position.x;
-    element.style.gridRow = position.y;
-
-};
-
-
-function comerComidaEspecial(head){
-
-    if(head.x === specialFoodPosition.x && head.y === specialFoodPosition.y){
-    
-        console.log('comi comida especial')
-
-        specialFoodPosition = generateSpecialPosition();
-
-        bonus += 3;
-
-        increaseSpeed();
-
-        clearInterval(gameInterval);
-
-        gameInterval = setInterval(()=>{
-
-            move();
-            draw();
-            checkCollision();
-            drawSpecialFood(specialFoodPosition);
-
-        }, gameSpeedDelay);
-    }
-
-};

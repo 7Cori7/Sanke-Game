@@ -95,4 +95,35 @@ body, .snake{
     opacity: .8;
 }
 
+#game-options {
+    display: none;
+    position: absolute;
+    top: 30%;
+    color: #333;
+    width: 300px;
+    text-align: justify;
+    text-transform: capitalize;
+    padding: 30px;
+    margin: 0;
+    z-index: 5;
+    font-weight: bold;
+}
+
+#game-options h2 {
+
+    font-size: 2rem;
+
+}
+
+#game-options ul{
+
+    padding-left: 15px;
+    font-size: 1.5rem;
+
+}
+
+#game-options li{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
   
