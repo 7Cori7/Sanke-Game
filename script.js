@@ -19,6 +19,7 @@ let bonus = 0;
 let easy = false;
 let normal = false;
 let hard = false;
+let optionScreen = false;
 
 //* Función para dibujar en el mapa del juego (gameboard), la culebrita (snake) y la comidita (food):
 function draw(){
@@ -194,7 +195,7 @@ function move(){
 function startGame(){
 
     gameStarted = true;
-
+    optionScreen = false;
     gameOptions.style.display = 'none';
 
     if(normal){
@@ -223,23 +224,24 @@ function startGame(){
 function handleKeyPress(event){
 
     //Si NO se ha iniciado el juego:
-    if( (!gameStarted && event.code === 'Space') || (!gameStarted && event.key === ' ') ){
+    if( (!gameStarted && event.code === 'Space' && !optionScreen) || (!gameStarted && event.key === ' ' && !optionScreen) ){
 
         gameOptions.style.display = 'block';
         instrucciones.style.display = 'none';
         logo.style.display = 'none';
+        optionScreen = true;
 
-    }else if(!gameStarted && event.key === "1"){
+    }else if(!gameStarted && event.key === "1" && optionScreen){
 
         easy = true;
         startGame();
 
-    }else if(!gameStarted && event.key === "2"){
+    }else if(!gameStarted && event.key === "2" && optionScreen){
 
         normal = true;
         startGame();
 
-    }else if(!gameStarted && event.key === "3"){
+    }else if(!gameStarted && event.key === "3" && optionScreen){
 
         hard = true;
         startGame();
