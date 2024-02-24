@@ -212,7 +212,7 @@ body, .snake{
         background-color: #b78ab7;
         border: solid 5px white;
         border-radius: 10px;
-        bottom: 0;
+        bottom: 5%;
         visibility: visible;
         pointer-events: all;
     }
@@ -276,9 +276,9 @@ body, .snake{
 
     }
 
-    #up-arrow{
-        height: 48px;
-        width: 30px;
+    #up-arrow, #down-arrow{
+        height: 50px;
+        width: 45px;
         background-color: #5f435b;
         border-radius: 5px;
         border: solid 3px #31232f;
@@ -292,16 +292,8 @@ body, .snake{
     }
 
     #rigth-arrow, #left-arrow{
-        height: 30px;
-        width: 48px;
-        background-color: #5f435b;
-        border-radius: 5px;
-        border: solid 3px #31232f;
-    }
-
-    #down-arrow{
-        height: 48px;
-        width: 30px;
+        height: 45px;
+        width: 50px;
         background-color: #5f435b;
         border-radius: 5px;
         border: solid 3px #31232f;
