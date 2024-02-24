@@ -39,7 +39,7 @@ body, .snake{
 
 #instruction-text{
     position: absolute;
-    top: 66%;
+    bottom: 2%;
     color: #333;
     width: 300px;
     text-align: center;
@@ -47,6 +47,8 @@ body, .snake{
     padding: 30px;
     margin: 0;
     z-index: 5;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .scores{
@@ -98,7 +100,9 @@ body, .snake{
 #game-options {
     display: none;
     position: absolute;
-    top: 30%;
+    bottom: -5%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     color: #333;
     width: 300px;
     text-align: justify;
@@ -126,4 +130,181 @@ body, .snake{
     padding-top: 10px;
     padding-bottom: 10px;
 }
-  
+
+#controller-container{
+    display: none;
+    visibility: none;
+    pointer-events: none;
+}
+
+
+/*---RESPONSIVE---*/
+@media (max-width: 768px){
+
+    body{
+        display: flex;
+        justify-content: center;
+        width: 100vw;
+        overflow-x: hidden;
+    }
+
+    .game-container{
+        position: absolute;
+        top: 2%;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+
+    #game-board{
+        display: grid;
+        grid-template-columns: repeat(20, 15px);
+        grid-template-rows: repeat(20, 15px);
+    }
+    
+    .game-border-1{
+        border: #5f435b solid 5px;
+        border-radius: 15px;
+    }
+    
+    .game-border-2{
+        border: #b78ab7 solid 4px;
+        border-radius: 6px;
+    }
+    
+    .game-border-3{
+        border: #966c8b solid 15px;
+        border-radius: 2px;
+    }
+    
+    #instruction-text{
+        width: 290px;
+        font-size: 1.8rem;
+        bottom: -8%;
+    }
+       
+    .game-border-3, #logo{
+        background-color: #ddcad9;
+    }
+
+    #logo{
+        width: 174px;
+        height: 176px;
+    }
+    
+    #game-options {
+        bottom: -30%;
+        width: 290px;
+        text-align: left;
+    }
+    
+    #game-options li{
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    #controller-container{
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        width: 300px;
+        height: 200px;
+        background-color: #b78ab7;
+        border: solid 5px white;
+        border-radius: 10px;
+        bottom: 0;
+        visibility: visible;
+        pointer-events: all;
+    }
+
+    #controls{
+        position: relative;
+        height: 100%;
+        width: 100%;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    #spacebar{
+        width: 60%;
+        height: 50px;
+        background-color: #5f435b;
+        border: solid 3px #31232f;
+        border-radius: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        left: 50%;
+        top: 45%;
+        transform: translate(-50%, -50%);
+    }
+
+    #spacebar p{
+        color: white;
+        font-size: 1.5rem;
+    }
+
+    #opt-btn{
+        display: none;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    #btn-1, #btn-2, #btn-3{
+        height: 50px;
+        width: 50px;
+        background-color: #5f435b;
+        border-radius: 10px;
+        border: solid 3px #31232f;
+        color: white;
+        font-size: 1.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #arrows{
+
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin: 10px 0;
+
+    }
+
+    #up-arrow{
+        height: 48px;
+        width: 30px;
+        background-color: #5f435b;
+        border-radius: 5px;
+        border: solid 3px #31232f;
+    }
+
+    .sides{
+        display: flex;
+        justify-content: space-between;
+        width: 60%;
+        margin: 10px 0;
+    }
+
+    #rigth-arrow, #left-arrow{
+        height: 30px;
+        width: 48px;
+        background-color: #5f435b;
+        border-radius: 5px;
+        border: solid 3px #31232f;
+    }
+
+    #down-arrow{
+        height: 48px;
+        width: 30px;
+        background-color: #5f435b;
+        border-radius: 5px;
+        border: solid 3px #31232f;
+    }
+
+}

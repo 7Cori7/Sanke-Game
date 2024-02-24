@@ -13,32 +13,58 @@
 </head>
 <body>
 
-    <div>
-        <div class="scores">
-            <h1 id="score">000</h1>
-            <h1 id="highScore">000</h1>
-        </div>
-        <div class="game-border-1">
-            <div class="game-border-2">
-                <div class="game-border-3">
-                    <div id="game-board"></div>
+    <div class="game-container">
+        <div>
+            <div class="scores">
+                <h1 id="score">000</h1>
+                <h1 id="highScore">000</h1>
+            </div>
+            <div class="game-border-1">
+                <div class="game-border-2">
+                    <div class="game-border-3">
+                        <div id="game-board"></div>
+                    </div>
                 </div>
             </div>
         </div>
+    
+        <h1 id="instruction-text">Press spacebar to start the game</h1>
+        <img src="culebrita-art.png" alt="Snake art" id="logo" width="240" height="246"> 
+    
+        <div id="game-options">
+            <h2>Select a game mode:</h2>
+            <ul>
+                <li>Press "1" to play easy mode</li>
+                <li>Press "2" to play normal mode</li>
+                <li>Press "3" to play hard mode</li>
+            </ul>
+        </div>
     </div>
+    <div id="controller-container">
+        <div id="controls">
 
-    <h1 id="instruction-text">Press spacebar to start the game</h1>
-    <img src="culebrita-art.png" alt="Snake art" id="logo" width="240" height="246"> 
+            <div id="spacebar">
+                <p>Spacebar</p>
+            </div>
 
-    <div id="game-options">
-        <h2>Select a game mode:</h2>
-        <ul>
-            <li>Press "1" to play easy mode</li>
-            <li>Press "2" to play normal mode</li>
-            <li>Press "3" to play hard mode</li>
-        </ul>
+            <div id="opt-btn">
+                <div id="btn-1"><p>1</p></div>
+                <div id="btn-2"><p>2</p></div>
+                <div id="btn-3"><p>3</p></div>
+            </div>
 
+            <div id="arrows">
+                <div id="up-arrow"></div>
+                <div class="sides">
+                    <div id="rigth-arrow"></div>
+                    <div id="left-arrow"></div>  
+                </div>
+                <div id="down-arrow"></div>
+            </div>
+            
+        </div>
     </div>
+    
 
 </body>
 </html>

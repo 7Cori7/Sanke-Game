@@ -6,6 +6,21 @@ const gameOptions = document.getElementById('game-options');
 const score = document.getElementById('score');
 const highScoreText = document.getElementById('highScore');
 
+//Controles para el movil:
+const controllers = document.getElementById('controller-container');
+const spacebar = document.getElementById('spacebar');
+
+const options = document.getElementById('opt-btn');
+const opt1 = document.getElementById('btn-1');
+const opt2 = document.getElementById('btn-2');
+const opt3 = document.getElementById('btn-3');
+
+const arrowControllers = document.getElementById('arrows');
+const arrUp = document.getElementById('up-arrow');
+const arrDown = document.getElementById('down-arrow');
+const arrR = document.getElementById('rigth-arrow');
+const arrL = document.getElementById('left-arrow');
+
 //Definir variables del juego:
 const gridSize = 20;
 let snake = [{x: 10, y: 10}]; //<-- la culebrita es un arreglo que contiene posiciones (ejes x = filas, y = columnas) del mapa de juego (grilla del game board)
@@ -280,10 +295,82 @@ function handleKeyPress(event){
 
 };
 
+function handleClick(e){
+
+    //Si NO se ha iniciado el juego:
+    if( (!gameStarted && e.target.parentElement === spacebar ) || (!gameStarted && e.target === spacebar ) ){
+
+        gameOptions.style.display = 'block';
+        instrucciones.style.display = 'none';
+        logo.style.display = 'none';
+        optionScreen = true;
+
+        spacebar.style.display = 'none';
+        options.style.display = 'flex';
+
+    }else if((!gameStarted && e.target.parentElement === opt1 && optionScreen) || (!gameStarted && e.target === opt1 && optionScreen)){
+
+        easy = true;
+        startGame();
+        options.style.display = 'none';
+        arrowControllers.style.display = 'flex';
+
+    }else if((!gameStarted && e.target.parentElement === opt2 && optionScreen) || (!gameStarted && e.target === opt2 && optionScreen)){
+
+        normal = true;
+        startGame();
+        options.style.display = 'none';
+        arrowControllers.style.display = 'flex';
+
+    }else if((!gameStarted && e.target.parentElement === opt3 && optionScreen) || (!gameStarted && e.target === opt3 && optionScreen)){
+
+        hard = true;
+        startGame();
+        options.style.display = 'none';
+        arrowControllers.style.display = 'flex';
+
+    }else{
+
+        //Si ya se inició el juego:
+        switch(e.target){
+
+            case arrUp:
+
+                direction = 'up';
+
+                break;
+
+            case arrDown:
+
+                direction = 'down';
+
+                break;
+
+            case arrR:
+
+                direction = 'left';
+
+                break;
+
+            case arrL: 
+
+                direction = 'right';
+
+                break;
+
+        };
+
+    };
+};
+
 document.addEventListener('keydown', e => {
 
     handleKeyPress(e);
 
+});
+
+controllers.addEventListener('click', e => {
+    handleClick(e);
 });
 
 
@@ -371,6 +458,7 @@ function resetGame(){
     direction = 'right';
     gameSpeedDelay = 200;
     updateScore();
+    arrowControllers.style.display = 'none';
 
 };
 
@@ -404,6 +492,7 @@ function stopGame(){
     easy = false;
     normal = false;
     hard = false;
+    spacebar.style.display = 'flex';
 };
 
 
