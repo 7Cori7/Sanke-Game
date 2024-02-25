@@ -287,8 +287,8 @@ body, .snake{
     .sides{
         display: flex;
         justify-content: space-between;
-        width: 60%;
-        margin: 10px 0;
+        width: 50%;
+        margin: 5px 0;
     }
 
     #rigth-arrow, #left-arrow{

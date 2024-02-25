@@ -367,10 +367,20 @@ document.addEventListener('keydown', e => {
 
     handleKeyPress(e);
 
+    return () => {
+        document.removeEventListener('keydown', handleKeyPress);
+    };
+
 });
 
 controllers.addEventListener('click', e => {
+
     handleClick(e);
+
+    return () => {
+        controllers.removeEventListener('click', handleClick);
+    };
+    
 });
 
 
