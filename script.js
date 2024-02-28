@@ -36,6 +36,23 @@ let normal = false;
 let hard = false;
 let optionScreen = false;
 
+//* Cargar el high score guardado en el localStorage:
+document.addEventListener('DOMContentLoaded', () => {
+    const highS = localStorage.getItem('HighScore');
+    if(!highS) return null;
+    return handleHighScore(highS);
+});
+function handleHighScore(score){
+
+    highScore = score;
+
+    if(highScore > 0){
+        highScoreText.textContent = highScore.toString().padStart(3,'0');
+        highScoreText.style.display = 'block';
+    }
+
+};
+
 //* Función para dibujar en el mapa del juego (gameboard), la culebrita (snake) y la comidita (food):
 function draw(){
 
@@ -245,6 +262,11 @@ function handleKeyPress(event){
         instrucciones.style.display = 'none';
         logo.style.display = 'none';
         optionScreen = true;
+
+    }else if((!gameStarted && event.key === "d" && !optionScreen)){ //<--comando para resetear el high score
+
+        localStorage.removeItem('HighScore');
+        location.reload();
 
     }else if(!gameStarted && event.key === "1" && optionScreen){
 
@@ -489,6 +511,8 @@ function updateHighScore(){
         highScoreText.textContent = highScore.toString().padStart(3,'0');
     }
     highScoreText.style.display = 'block';
+
+    localStorage.setItem('HighScore', highScore);
 
 };
 
