@@ -207,6 +207,7 @@ body, .snake{
         position: absolute;
         display: flex;
         justify-content: center;
+        align-items: center;
         width: 300px;
         height: 200px;
         background-color: #b78ab7;
@@ -238,7 +239,7 @@ body, .snake{
         align-items: center;
         position: absolute;
         left: 50%;
-        top: 45%;
+        top: 50%;
         transform: translate(-50%, -50%);
     }
 
