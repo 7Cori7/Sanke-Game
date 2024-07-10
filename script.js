@@ -59,10 +59,9 @@ function draw(){
     board.innerHTML = '';
     drawSnake();
     drawFood();
+    //drawSpecialFood();
     updateScore();
-
 };
-
 
 //Dibujar culebrita (snake) y ponerla en el gameboard:
 function drawSnake(){
@@ -85,7 +84,16 @@ function drawFood(){
 
     if(gameStarted){
 
-        const foodElement = createGameElement('div', 'food');
+        let foodElement;
+
+        // Cambiar el color de la comida dependiendo de su posición en el tablero:
+        if(foodPosition.x === 1 || foodPosition.x === 20 || foodPosition.y === 1 || foodPosition.y === 20){
+
+            foodElement = createGameElement('div', 'specialFood');
+        }else{
+
+            foodElement = createGameElement('div', 'food');
+        }
 
         setPosition(foodElement, foodPosition);
 
@@ -94,8 +102,6 @@ function drawFood(){
     }
 
 };
-
-
 
 //Función para generar la posición de la comida:
 function generateFoodPostion(){
@@ -106,8 +112,6 @@ function generateFoodPostion(){
     return { x, y };
 
 };
-
-
 
 //Función para crear segmentos de la culebra o cubos de comida:
 function createGameElement(tag, className){
@@ -166,53 +170,30 @@ function move(){
     //* Si se "come la comida":
     if( head.x === foodPosition.x && head.y === foodPosition.y ){
 
+        // si la comida está en los bordes del tablero te da un bonus al comerla
+        if ( foodPosition.x === 1 || foodPosition.x === 20 || foodPosition.y === 1 || foodPosition.y === 20 ){
+
+            if(hard){
+                bonus += 5;
+            }else if(normal){
+                bonus += 3;
+            }else{
+                bonus += 2;
+            }
+        }
+
         foodPosition = generateFoodPostion(); //<--- Se vuelve a generar la comida
-
         increaseSpeed();
-
-        if(snake.length > 15 && hard){
-
-            bonus += 3;
-      
-            clearInterval(gameInterval);
     
-            gameInterval = setInterval(()=>{
-    
-                move();
-                draw();
-                checkCollision();
-    
-            }, gameSpeedDelay);
+        clearInterval(gameInterval); // <--- borra el intervalo anterior
 
-        }else if(snake.length > 50 && normal || snake.length > 40 && easy){
+        gameInterval = setInterval(()=>{
 
-            bonus += 3;
-      
-            clearInterval(gameInterval);
+            move();
+            draw();
+            checkCollision();
 
-            increaseDificulty();
-    
-            gameInterval = setInterval(()=>{
-    
-                move();
-                draw();
-                checkCollision();
-    
-            }, gameSpeedDelay);
-
-        }else{
-    
-            clearInterval(gameInterval); // <--- borra el intervalo anterior
-
-            gameInterval = setInterval(()=>{
-
-                move();
-                draw();
-                checkCollision();
-
-            }, gameSpeedDelay);
-
-        };
+        }, gameSpeedDelay); 
 
     }else{
 
@@ -229,6 +210,7 @@ function startGame(){
     gameStarted = true;
     optionScreen = false;
     gameOptions.style.display = 'none';
+    bonus = 0;
 
     if(normal){
         gameSpeedDelay = 200;
@@ -526,6 +508,7 @@ function stopGame(){
     easy = false;
     normal = false;
     hard = false;
+    bonus = 0;
     spacebar.style.display = 'flex';
 };
 
